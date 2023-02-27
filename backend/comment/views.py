@@ -15,3 +15,13 @@ def comment_list(request):
     comments = Comment.objects.all()
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_comments(request):
+    print(
+        'User ', f"{request.user.id}{request.user.email}{request.user.username}")
+    request.method == 'GET':
+    comments = Comment.objects.filter(user_id=request.user.id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
