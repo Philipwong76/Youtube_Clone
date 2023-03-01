@@ -15,3 +15,8 @@ def comment_list(request):
     comments = Comment.objects.all()
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def video_comments(request, video_id):
+    pass
