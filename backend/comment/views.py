@@ -20,3 +20,12 @@ def comment_list(request):
 @permission_classes([AllowAny])
 def video_comments(request, video_id):
     pass
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_comments(request):
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
