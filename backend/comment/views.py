@@ -19,7 +19,9 @@ def comment_list(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def video_comments(request, video_id):
-    pass
+    comments = Comment.objects.filter(video_id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
